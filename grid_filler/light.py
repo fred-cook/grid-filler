@@ -35,4 +35,3 @@ class Light:
             raise ValueError(f"Cannot put word of length {len(value)} "
                              f" in a light of length {len(self)}")
         self._slice[:] = list(value)
-            
