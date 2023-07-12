@@ -19,5 +19,5 @@ the letters/blocks/empty spaces which make up the crossword.
 `CrosswordGrid`: A lightweight class wrapper with methods to make the `grid` and find all of the `Light`s in the grid
 
 ### To do list
- [ ] Save which lights are across and down when they get made.
- [ ] Calculate and store the number and direction of lights
+- [ ] Save which lights are across and down when they get made.
+- [ ] Calculate and store the number and direction of lights
