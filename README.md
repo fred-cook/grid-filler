@@ -1,6 +1,13 @@
 # grid-filler
 A program to fit theme words from a small dictionary into a crossword grid, while maintaining the ability to complete the rest of the grid from a full dictionary
 
+## Installation
+
+Clone the repository and make sure you poetry installed using `pip install poetry`
+
+Change directory into the repo and run `poetry shell` to spawn a new virtual environment.
+
+Run `poetry install` and add the flags `--only main` if you don't need dev dependencies.
 
 ## Glossary
 
