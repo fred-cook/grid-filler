@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "grid-filler"
+name = "grid_filler"
 version = "0.1.0"
 description = "A program to fit theme words from a small dictionary into a crossword grid, while maintaining the ability to complete the rest of the grid from a full dictionary"
 authors = ["Fred Cook <fred@fredcook.co.uk>"]
@@ -10,6 +10,7 @@ packages = [{include = "grid_filler"}]
 [tool.poetry.dependencies]
 python = "^3.9"
 numpy = "^1.25.0"
+pytest = "^7.4.0"
 
 
 [build-system]
