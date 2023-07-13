@@ -29,4 +29,6 @@ jobs:
       # - name: Lint with ruff
       #   run: ruff check .
       - name: Test with pytest
-        run: pytest --cov=grid_filler tests/
+        run: |
+          poetry shell
+          pytest --cov=grid_filler tests/
