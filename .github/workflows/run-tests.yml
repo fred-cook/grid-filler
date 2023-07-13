@@ -49,4 +49,4 @@ jobs:
       #    run test suite and output coverage file
       #----------------------------------------------
       - name: Test with pytest
-        run: poetry run pytest --cov=grid_filler --cov-report=xml
+        run: poetry run pytest --cov=grid_filler tests/
