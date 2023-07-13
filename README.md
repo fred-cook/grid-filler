@@ -11,7 +11,7 @@ Run `poetry install` and add the flags `--only main` if you don't need dev depen
 
 ## Glossary
 
-`grid`: They `NumPy` array which stores
+`grid`: The `NumPy` array which stores
 the letters/blocks/empty spaces which make up the crossword.
 
 `Light`: A space in which a word can go in the grid.
