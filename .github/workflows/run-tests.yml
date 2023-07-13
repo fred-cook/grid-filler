@@ -22,7 +22,7 @@ jobs:
           pip install poetry
           poetry install
       - name: check pip installs
-        run: echo ${pip list}
+        run: echo $(pip list)
       - name: Lint with ruff
         run: ruff check .
       - name: Test with pytest
