@@ -22,6 +22,6 @@ jobs:
           pip install poetry
           poetry install
       - name: Lint with ruff
-        run: python -m ruff check .
+        run: ruff check .
       - name: Test with pytest
         run: pytest --cov=grid_filler tests/
