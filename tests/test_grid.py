@@ -2,6 +2,7 @@ import pytest
 
 from grid_filler.grid import CrosswordGrid
 
+
 @pytest.fixture
 def simple_grid_string():
     return ("### ###"
