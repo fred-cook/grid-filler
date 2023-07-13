@@ -13,7 +13,12 @@ class CrosswordGrid:
     
     def __init__(self, grid_str: str, shape: Tuple[int, int]=(15, 15)):
         self.grid = self.make_array(grid_str, shape=shape)
+
+        self.across_lights: list[Light]
+        self.down_lights: list[Light]
         self.lights = self.extract_lights()
+        self.populate_light_crossers()
+
 
     def __repr__(self):
         return '\n'.join([''.join(row) for row in self.grid])
@@ -65,11 +70,23 @@ class CrosswordGrid:
         # convert to array of ones for empty cells, 0 for blocked
         integer_array = np.where(self.grid == empty, 1, 0)
         # Find all the across lights
-        lights = [self.create_light(*row)
+        self.across_lights = [self.create_light(*row)
                   for row in self.get_light_coordinates(integer_array)]
-        lights += [self.create_light(*row, down=True)
+        self.down_lights = [self.create_light(*row, down=True)
                    for row in self.get_light_coordinates(integer_array.T)]
-        return lights
+        return self.across_lights + self.down_lights
+    
+    def populate_light_crossers(self) -> None:
+        """
+        Given a list of lights, loop over it and store the crossers
+
+        Not as efficient as it could be but only runs once
+        """
+        for light in self.across_lights:
+            light.find_crossers(self.down_lights)
+        
+        for light in self.down_lights:
+            light.find_crossers(self.across_lights)
         
 
     def create_light(self, row: int, column: int, length: int,
@@ -121,21 +138,3 @@ class CrosswordGrid:
         lengths = ends - starts
         # remove any lights which aren't the required length
         return np.c_[row_indices, starts, lengths][lengths >= self.MIN_LENGTH]
-
-    def find_crossers(self, lights: List[Light]) -> None:
-        """
-        Find all of the lights which cross this light
-        in the grid array
-
-        This method should only be called once
-
-        Parameters
-        ----------
-        lights: list[Light]
-            All of the lights in the grid
-        """
-        for light in lights:
-            if light is light:
-                continue
-            if np.shares_memory(light.slice, self.slice):
-                light.crossers.append(light)
