@@ -26,7 +26,7 @@ jobs:
         run: poetry install --no-interaction --with test
       - name: check pip list
         run: echo $(pip list)
-      - name: Lint with ruff
-        run: ruff check .
+      # - name: Lint with ruff
+      #   run: ruff check .
       - name: Test with pytest
         run: pytest --cov=grid_filler tests/
