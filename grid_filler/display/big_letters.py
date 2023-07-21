@@ -2,10 +2,10 @@ import numpy as np
 
 class BigLetters:
     A = np.array(list('      _     '
-         '     /_\    '
-         '    / _ \   '
-         '   /_/ \_\  '
-         '            ')).reshape(5, -1)
+          '     /_\    '
+          '    / _ \   '
+          '   /_/ \_\  '
+          '            ')).reshape(5, -1)
     
     B = np.array(list('     ___    '
          '    | _ )   '
@@ -156,3 +156,5 @@ class BigLetters:
          '     / /    '
          '    /___|   '
          '            ')).reshape(5, -1)
+    
+    SOLID = np.array(['█'] * 60).reshape(5, -1)
