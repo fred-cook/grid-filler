@@ -37,7 +37,7 @@ class TestLight:
         
         second_word = "CROSSWORD"
         light.slice = second_word
-        assert np.all(light._slice == np.array(list(second_word)))
+        assert np.all(light._stride == np.array(list(second_word)))
 
     def test_invalid_word(self):
         light = Light(np.array(list(' ' * 5)))

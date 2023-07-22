@@ -14,10 +14,12 @@ class Light:
     crossers: list[Light]
         A list of all the intersecting lights
     """
-    def __init__(self, stride: np.ndarray):
+    def __init__(self, stride: np.ndarray,
+                 coord: tuple[int, int],
+                 direction: str):
         if stride.dtype != np.dtype('<U1'):
             raise ValueError("Invalid slice data type")
-        self._slice = stride
+        self._stride = stride
         self.crossers: list[Light] = []
 
     def __len__(self):
@@ -28,11 +30,11 @@ class Light:
     
     @property
     def array(self) -> np.ndarray:
-        return self._slice
+        return self._stride
 
     @property
     def slice(self) -> str:
-        return ''.join(self._slice)
+        return ''.join(self._stride)
 
     @slice.setter
     def slice(self, value: str):
@@ -43,7 +45,7 @@ class Light:
         if len(value) != len(self):
             raise ValueError(f"Cannot put word of length {len(value)} "
                              f" in a light of length {len(self)}")
-        self._slice[:] = list(value)
+        self._stride[:] = list(value)
 
     def shares_memory(self, other: 'Light') -> bool:
         """
@@ -62,7 +64,7 @@ class Light:
             raise ValueError(f"Must be of type {self.__class__}")
         elif other is self:
             return False
-        return np.shares_memory(self._slice, other.array)
+        return np.shares_memory(self._stride, other.array)
 
     def find_crossers(self, lights: list['Light']) -> None:
         """
