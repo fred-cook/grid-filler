@@ -48,12 +48,9 @@ class CrosswordGrid:
         if (rows * columns) != len(grid_str):
             raise ValueError("grid_str length doesn't match shape given")
         
-        return np.array(
-            [[grid_str[i * columns + j] for j in range(columns)]
-             for i in range(rows)]
-            )
+        return np.array(list(grid_str)).reshape(*shape)
 
-    def extract_lights(self, empty: str=' ', blocked: str='#') -> List[Light]:
+    def extract_lights(self, white: str=' ') -> List[Light]:
         """
         Return a list of locations and lengths for each light in the
         grid_array
@@ -68,7 +65,7 @@ class CrosswordGrid:
         light_locations: list[list[int]]
         """
         # convert to array of ones for empty cells, 0 for blocked
-        integer_array = np.where(self.grid == empty, 1, 0)
+        integer_array = np.where(self.grid == white, 1, 0)
         # Find all the across lights
         self.across_lights = [self.create_light(*row)
                   for row in self.get_light_coordinates(integer_array)]
