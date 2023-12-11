@@ -1,3 +1,6 @@
+from collections import deque
+import re
+
 import numpy as np
 
 class Light:
@@ -13,6 +16,9 @@ class Light:
         A slice of the grid array which contains the light
     crossers: list[Light]
         A list of all the intersecting lights
+    cache: deque[re.Pattern]
+        Stores previous states of the word for when it gets
+        removed
     """
     def __init__(self, stride: np.ndarray):
         if stride.dtype != np.dtype('<U1'):
@@ -20,22 +26,24 @@ class Light:
         self._slice = stride
         self.crossers: list[Light] = []
 
+        self.pattern = re.compile(self.word)
+        self.cache: deque[re.Pattern] = deque()
+
     def __len__(self):
-        return len(self.slice)
+        return len(self.word)
     
     def __repr__(self):
-        return self.slice
+        return self.word
     
     @property
     def array(self) -> np.ndarray:
         return self._slice
 
     @property
-    def slice(self) -> str:
+    def word(self) -> str:
         return ''.join(self._slice)
 
-    @slice.setter
-    def slice(self, value: str):
+    def enter_word(self, value: str) -> None:
         """
         Can also put checks for special characters and
         enusure the letters are upper case here
@@ -44,6 +52,21 @@ class Light:
             raise ValueError(f"Cannot put word of length {len(value)} "
                              f" in a light of length {len(self)}")
         self._slice[:] = list(value)
+        self.update_pattern()
+        for crosser in self.crossers:
+            crosser.update_pattern()
+
+    def update_pattern(self) -> None:
+        """
+        Update the regex pattern stored in self.cache
+
+        If already a complete word don't add to cache
+        """
+        if '.' in self.pattern.pattern:
+            self.cache.append(self.pattern)
+        self.pattern = re.compile(self.word)
+
+
 
     def shares_memory(self, other: 'Light') -> bool:
         """
