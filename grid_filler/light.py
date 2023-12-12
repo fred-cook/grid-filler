@@ -94,7 +94,7 @@ class Light:
             raise ValueError(f"Must be of type {self.__class__}")
         elif other is self:
             return False
-        return np.shares_memory(self._slice, other.array)
+        return np.shares_memory(self.slice, other.slice)
 
     def find_crossers(self, lights: list['Light']) -> None:
         """
