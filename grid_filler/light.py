@@ -30,7 +30,7 @@ class Light:
         self.cache: deque[re.Pattern] = deque()
 
     def __len__(self):
-        return len(self.word)
+        return len(self.slice)
     
     def __repr__(self):
         return self.word
@@ -61,6 +61,20 @@ class Light:
         if '.' in self.pattern.pattern:
             self.cache.append(self.pattern)
         self.pattern = re.compile(self.word)
+
+    def remove_word(self) -> None:
+        """
+        Return to the previous word in the cache
+        """
+        try:
+            self.pattern = self.cache.pop()
+            self.slice[:] = list(self.pattern.pattern)
+            for crosser in self.crossers:
+                crosser.update_pattern()
+        except IndexError:
+            # light should already be empty
+            assert np.all(self.slice == '.')
+            pass
 
 
 
