@@ -16,6 +16,8 @@ class Light:
         A slice of the grid array which contains the light
     crossers: list[Light]
         A list of all the intersecting lights
+    pattern: re.Pattern
+        The current regex of the light
     cache: deque[re.Pattern]
         Stores previous states of the word for when it gets
         removed
@@ -74,9 +76,6 @@ class Light:
         except IndexError:
             # light should already be empty
             assert np.all(self.slice == '.')
-            pass
-
-
 
     def shares_memory(self, other: 'Light') -> bool:
         """
