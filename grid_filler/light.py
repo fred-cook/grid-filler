@@ -23,7 +23,7 @@ class Light:
     def __init__(self, stride: np.ndarray):
         if stride.dtype != np.dtype('<U1'):
             raise ValueError("Invalid slice data type")
-        self._slice = stride
+        self.slice = stride
         self.crossers: list[Light] = []
 
         self.pattern = re.compile(self.word)
@@ -34,14 +34,10 @@ class Light:
     
     def __repr__(self):
         return self.word
-    
-    @property
-    def array(self) -> np.ndarray:
-        return self._slice
 
     @property
     def word(self) -> str:
-        return ''.join(self._slice)
+        return ''.join(self.slice)
 
     def enter_word(self, value: str) -> None:
         """
@@ -51,7 +47,7 @@ class Light:
         if len(value) != len(self):
             raise ValueError(f"Cannot put word of length {len(value)} "
                              f" in a light of length {len(self)}")
-        self._slice[:] = list(value)
+        self.slice[:] = list(value)
         self.update_pattern()
         for crosser in self.crossers:
             crosser.update_pattern()
