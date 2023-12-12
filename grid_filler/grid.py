@@ -92,7 +92,7 @@ class CrosswordGrid:
         Given coordinates and a length create a stride_tricks
         view into the grid and save it in a `Light`
 
-        Paramaters
+        Parameters
         ----------
         light_coordinates: np.ndarray
             
