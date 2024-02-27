@@ -109,7 +109,7 @@ class CrosswordGrid:
         light_slice = as_strided(self.grid[row:, column:],
                                      shape=(length,),
                                      strides=strides)
-        return Light(light_slice)
+        return Light(light_slice, (row, column), 'd' if down else 'a')
 
     def get_light_coordinates(self, integer_array: np.ndarray) -> np.ndarray:
         """

@@ -20,6 +20,8 @@ class Light:
         if stride.dtype != np.dtype('<U1'):
             raise ValueError("Invalid slice data type")
         self._stride = stride
+        self.coord = coord
+        self.direction = direction
         self.crossers: list[Light] = []
 
     def __len__(self):
