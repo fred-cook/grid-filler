@@ -9,13 +9,13 @@ class TestLight:
     def test_initialisation(self):
         LENGTH = 10
         array = np.array(list(" " * LENGTH))
-        test_light = Light(array)
+        test_light = Light(array, (0, 0), direction='a')
         assert len(test_light) == LENGTH
         assert test_light.slice == " " * LENGTH
 
     def test_repr(self):
         word = "ORANGELAD"
-        light = Light(np.array(list(word)))
+        light = Light(np.array(list(word)), coord=(0, 0), direction='a')
         assert str(light) == word
 
     def test_wrong_datatype(self):
@@ -24,11 +24,11 @@ class TestLight:
         """
         array = np.ones(10)
         with pytest.raises(ValueError):
-            _  = Light(array)
+            _  = Light(array, (0, 0), direction='a')
 
     def test_setting_word(self):
         LENGTH = 9
-        light = Light(np.array(list(' ' * LENGTH)))
+        light = Light(np.array(list(' ' * LENGTH)), (0, 0), 'a')
         assert light.slice == ' ' * LENGTH
         first_word = "ORANGELAD"
         light.slice = first_word
@@ -40,7 +40,7 @@ class TestLight:
         assert np.all(light._stride == np.array(list(second_word)))
 
     def test_invalid_word(self):
-        light = Light(np.array(list(' ' * 5)))
+        light = Light(np.array(list(' ' * 5)), (0, 0), 'a')
         with pytest.raises(ValueError):
             light.slice = "TOOLONG"
 
