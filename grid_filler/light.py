@@ -22,10 +22,14 @@ class Light:
         Stores previous states of the word for when it gets
         removed
     """
-    def __init__(self, stride: np.ndarray):
+    def __init__(self, stride: np.ndarray,
+                 coord: tuple[int, int],
+                 direction: str):
         if stride.dtype != np.dtype('<U1'):
             raise ValueError("Invalid slice data type")
-        self.slice = stride
+        self._stride = stride
+        self.coord = coord
+        self.direction = direction
         self.crossers: list[Light] = []
 
         self.pattern = re.compile(self.word)
@@ -36,12 +40,21 @@ class Light:
     
     def __repr__(self):
         return self.word
+    
+    @property
+    def array(self) -> np.ndarray:
+        return self._stride
+
+    @property
+    def slice(self) -> str:
+        return self._stride
 
     @property
     def word(self) -> str:
         return ''.join(self.slice)
 
-    def enter_word(self, value: str) -> None:
+    @word.setter
+    def word(self, value: str) -> None:
         """
         Can also put checks for special characters and
         enusure the letters are upper case here
@@ -49,7 +62,7 @@ class Light:
         if len(value) != len(self):
             raise ValueError(f"Cannot put word of length {len(value)} "
                              f" in a light of length {len(self)}")
-        self.slice[:] = list(value)
+        self._stride[:] = list(value)
         self.update_pattern()
         for crosser in self.crossers:
             crosser.update_pattern()
