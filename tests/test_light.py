@@ -31,18 +31,18 @@ class TestLight:
         light = Light(np.array(list('.' * LENGTH)), coord=(0, 0), direction='a')
         assert light.word == '.' * LENGTH
         first_word = "ORANGELAD"
-        light.enter_word(first_word)
+        light.word = first_word
         assert light.word == first_word
         assert str(light) == first_word
         
         second_word = "CROSSWORD"
-        light.enter_word(second_word)
+        light.word = second_word
         assert np.all(light.slice == np.array(list(second_word)))
 
     def test_invalid_word(self):
         light = Light(np.array(['.'] * 5), coord=(0, 0), direction='a')
         with pytest.raises(ValueError):
-            light.enter_word("TOOLONG")
+            light.word = "TOOLONG"
 
     def test_memory_maintained(self, simple_grid_string):
         """
@@ -53,8 +53,8 @@ class TestLight:
         shape = (grid_size, grid_size)
         grid = CrosswordGrid(simple_grid_string, shape)
         light_1, light_2 = grid.lights
-        light_1.enter_word("ORANGES")
+        light_1.word = "ORANGES"
         assert light_1.shares_memory(light_2)
-        light_2.enter_word("GRANITE")
+        light_2.word = "GRANITE"
         assert light_2.shares_memory(light_1)
 

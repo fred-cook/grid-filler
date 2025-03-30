@@ -39,7 +39,7 @@ class Light:
         return len(self.slice)
     
     def __repr__(self):
-        return self.slice
+        return self.word
     
     @property
     def array(self) -> np.ndarray:
