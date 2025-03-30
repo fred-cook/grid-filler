@@ -19,16 +19,16 @@ class CrosswordGrid:
         self.lights = self.extract_lights()
         self.populate_light_crossers()
 
-
     def __repr__(self):
-        return '\n'.join([''.join(row) for row in self.grid])
-
+        return '\n'.join([''.join(row).replace('.', ' ')
+                          for row in self.grid])
 
     @staticmethod
     def make_array(grid_str: str,
                    shape: Tuple[int, int]=(15, 15)) -> np.ndarray:
         """
-        Turn a string into a numpy array
+        Turn a string into a numpy array. Note that blank spaces
+        get replaced with '.' for regex reasons
 
         Parameters
         ----------
@@ -48,12 +48,9 @@ class CrosswordGrid:
         if (rows * columns) != len(grid_str):
             raise ValueError("grid_str length doesn't match shape given")
         
-        return np.array(
-            [[grid_str[i * columns + j] for j in range(columns)]
-             for i in range(rows)]
-            )
+        return np.array(list(grid_str.replace(' ', '.'))).reshape(*shape)
 
-    def extract_lights(self, empty: str=' ', blocked: str='#') -> List[Light]:
+    def extract_lights(self, white: str='.') -> List[Light]:
         """
         Return a list of locations and lengths for each light in the
         grid_array
@@ -68,7 +65,7 @@ class CrosswordGrid:
         light_locations: list[list[int]]
         """
         # convert to array of ones for empty cells, 0 for blocked
-        integer_array = np.where(self.grid == empty, 1, 0)
+        integer_array = np.where(self.grid == white, 1, 0)
         # Find all the across lights
         self.across_lights = [self.create_light(*row)
                   for row in self.get_light_coordinates(integer_array)]
@@ -95,7 +92,7 @@ class CrosswordGrid:
         Given coordinates and a length create a stride_tricks
         view into the grid and save it in a `Light`
 
-        Paramaters
+        Parameters
         ----------
         light_coordinates: np.ndarray
             

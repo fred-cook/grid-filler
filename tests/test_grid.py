@@ -9,7 +9,7 @@ class TestGrid:
         An empty grid will have 30 lights (15 across and
         15 down)
         """
-        empty_grid = CrosswordGrid(' ' * 225) # 225 == 15**2
+        empty_grid = CrosswordGrid('.' * 225) # 225 == 15**2
         assert len(empty_grid.lights) == 30
 
     def test_full_grid(self):
